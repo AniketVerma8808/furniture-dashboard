@@ -11,7 +11,7 @@ import Category from "./pages/Category";
 import Subcategory from "./pages/Subcategory";
 import Blogs from "./pages/Blogs";
 import Testimonials from "./pages/Testimonials";
-import Orders from "./pages/orders";
+import Orders from "./pages/Orders";
 import Users from "./pages/Users";
 import Settings from "./pages/Settings";
 import Login from "./routes/auth/Login";
@@ -21,10 +21,10 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/dashboard",
-      element: <ProtectedRoute />, 
+      element: <ProtectedRoute />,
       children: [
         {
-          element: <Layout />, 
+          element: <Layout />,
           children: [
             { index: true, element: <DashboardPage /> },
             { path: "banner", element: <Banner /> },
