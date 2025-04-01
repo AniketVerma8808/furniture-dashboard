@@ -8,39 +8,41 @@ const apiAdmin = axios.create({
   },
 });
 
-// Interceptor to attach token before request
+// ✅ Attach token to every request
 apiAdmin.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
-      console.log("✅ Token attached to request:", token); // Debugging Log
-    } else {
-      console.warn("⚠️ No token found in localStorage!");
+      if (import.meta.env.DEV) {
+        console.log("✅ Token attached to request");
+      }
     }
     return config;
   },
   (error) => {
-    console.error("❌ Request Error:", error);
+    console.error("❌ Request error:", error);
     return Promise.reject(error);
   }
 );
 
-// Interceptor to handle responses globally
+// ✅ Handle global errors
 apiAdmin.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-      console.error("❌ API Error Response:", error.response);
+      const { status } = error.response;
 
-      // Unauthorized (401) Handling
-      if (error.response.status === 401) {
-        console.warn("⚠️ Unauthorized - Redirecting to Login...");
-        localStorage.clear(); // Clear all auth-related data
-        window.location.replace("/auth/sign-in"); // Redirect to login
+      // Token expired or unauthorized
+      if (status === 401) {
+        if (import.meta.env.DEV) {
+          console.warn("⚠️ Unauthorized - Redirecting to login...");
+        }
+        localStorage.clear();
+        window.location.replace("/auth/sign-in");
       }
     } else {
-      console.error("❌ Network Error or No Response:", error);
+      console.error("❌ Network or server error:", error);
     }
 
     return Promise.reject(error);

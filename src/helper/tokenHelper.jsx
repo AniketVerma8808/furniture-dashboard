@@ -1,33 +1,43 @@
-// jwt token getter setterv 
+// ✅ Get JWT token from localStorage
 export const getToken = () => {
-    return localStorage.getItem('token');
-}
+  return localStorage.getItem("token");
+};
 
-// set token to local storage
+// ✅ Save JWT token to localStorage
 export const setToken = (token) => {
-    localStorage.setItem('token', token);
-}
+  localStorage.setItem("token", token);
+};
 
-// set data to local storage
+// ✅ Set user data object to localStorage
 export const setData = (data) => {
-    localStorage.setItem('data', JSON.stringify(data));
-}
+  localStorage.setItem("data", JSON.stringify(data));
+};
 
+// ✅ Set user role to localStorage
 export const setRole = (role) => {
-    localStorage.setItem('role', role);
-}
+  localStorage.setItem("role", role);
+};
 
-// get data by key from local storage
+// ✅ Get specific key from saved user data
 export const getData = (key) => {
-    return JSON.parse(localStorage.getItem('data'))[key];
-}
+  const data = localStorage.getItem("data");
+  if (!data) return null;
 
-// remove token from local storage
+  try {
+    const parsed = JSON.parse(data);
+    return parsed?.[key] ?? null;
+  } catch (err) {
+    console.error("Error parsing localStorage data:", err);
+    return null;
+  }
+};
+
+// ✅ Remove JWT token
 export const removeToken = () => {
-    localStorage.removeItem('token');
-}
+  localStorage.removeItem("token");
+};
 
-// clear local storage
+// ✅ Clear all localStorage (logout)
 export const clearStorage = () => {
-    localStorage.clear();
-}
+  localStorage.clear();
+};
