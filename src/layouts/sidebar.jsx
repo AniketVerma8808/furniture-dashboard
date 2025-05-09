@@ -1,13 +1,21 @@
-import { forwardRef } from "react";
+import { forwardRef, useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { navbarLinks } from "../constants";
 
-import logoLight from "../assets/titlelogo.png";
+// import logoLight from "../assets/titlelogo.png";
 import { cn } from "../utils/cn";
 
 import PropTypes from "prop-types";
+import { UserContext } from "../context/UserContext";
+import { LogOut } from "lucide-react";
 
 export const Sidebar = forwardRef(({ collapsed }, ref) => {
+  const { logout } = useContext(UserContext);
+
+  const handleLogout = () => {
+    logout();
+    window.location.href = "/login";
+  };
   return (
     <aside
       ref={ref}
@@ -18,7 +26,8 @@ export const Sidebar = forwardRef(({ collapsed }, ref) => {
       )}
     >
       <Link to={"/dashboard"} className="flex gap-x-3 p-3">
-        <img src={logoLight} alt="Furniture" className=" " />
+        {/* <img src={logoLight} alt="Furniture" className=" " /> */}
+        <h2>Logo</h2>
       </Link>
       <div className="flex w-full flex-col gap-y-4 overflow-y-auto overflow-x-hidden p-3 [scrollbar-width:_thin]">
         {navbarLinks.map((navbarLink, index) => (
@@ -40,7 +49,7 @@ export const Sidebar = forwardRef(({ collapsed }, ref) => {
                   cn(
                     "sidebar-item",
                     collapsed && "md:w-[45px]",
-                    isActive && "active"
+                    isActive && "bg-[#ffbf00] text-white font-medium rounded"
                   )
                 }
               >
@@ -52,6 +61,15 @@ export const Sidebar = forwardRef(({ collapsed }, ref) => {
             ))}
           </nav>
         ))}
+      </div>
+      <div className="p-3 border-t border-gray-200">
+        <button
+          onClick={handleLogout}
+          className="flex w-full items-center gap-2 px-2 py-2 text-sm text-red-600 hover:bg-gray-100 rounded-md"
+        >
+          <LogOut size={18} />
+          {!collapsed && <span>Logout</span>}
+        </button>
       </div>
     </aside>
   );

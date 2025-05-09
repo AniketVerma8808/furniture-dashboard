@@ -2,7 +2,8 @@ import axios from "axios";
 
 // Create Axios instance
 const apiAdmin = axios.create({
-  baseURL: "http://localhost:4000/api",
+  // baseURL: "http://localhost:3040/api",
+  baseURL: "https://api.learnlinks.in/anuj/api",
   headers: {
     "Content-Type": "application/json",
   },

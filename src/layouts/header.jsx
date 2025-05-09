@@ -1,26 +1,10 @@
 import { Menu, User } from "lucide-react";
 import PropTypes from "prop-types";
-import { useState, useRef, useEffect } from "react";
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 
 export const Header = ({ collapsed, setCollapsed }) => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
+  const { user } = useContext(UserContext);
 
   return (
     <header className="relative z-10 flex h-[60px] items-center justify-between bg-white px-4 shadow-md transition-colors dark:bg-slate-900">
@@ -32,25 +16,12 @@ export const Header = ({ collapsed, setCollapsed }) => {
         <Menu className={collapsed ? "rotate-180 transition-transform" : ""} />
       </button>
 
-      {/* User Dropdown */}
-      <div className="relative" ref={dropdownRef}>
-        <button
-          className="btn-ghost size-10 flex items-center justify-center"
-          onClick={() => setDropdownOpen((prev) => !prev)}
-        >
-          <User size={20} />
-        </button>
-
-        {dropdownOpen && (
-          <div className="absolute right-0 mt-2 w-40 rounded-md border border-gray-300 bg-white shadow-lg ">
-            <button
-              onClick={handleLogout}
-              className="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-gray-100 "
-            >
-              Logout
-            </button>
-          </div>
-        )}
+      {/* User Info (No Dropdown) */}
+      <div className="flex items-center gap-2 mr-6">
+        <User size={20} />
+        <span className="text-sm font-medium whitespace-nowrap">
+          {user?.fullName}
+        </span>
       </div>
     </header>
   );

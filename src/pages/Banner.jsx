@@ -102,7 +102,7 @@ const Banners = () => {
     <div className="p-4 sm:p-6 bg-gray-100 min-h-screen">
       <div className="bg-white rounded-xl shadow-lg">
         {/* Header */}
-        <div className="bg-gradient-to-r from-gray-700 to-gray-900 p-6 rounded-t-lg">
+        <div className="bg-gradient-to-r from-amber-400 to-amber-500 p-6 rounded-t-lg">
           <h2 className="text-white text-lg font-semibold">Banners</h2>
         </div>
 
@@ -111,7 +111,7 @@ const Banners = () => {
           <Button
             variant="contained"
             onClick={handleOpen}
-            className="custom-gradient-btn"
+            className="bg-gradient-to-r from-amber-400 to-amber-500"
           >
             Add Banner
           </Button>

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { SyncLoader } from "react-spinners";
 import { setToken } from "../../helper/tokenHelper";
 import { AdminLoginService } from "../../services/api.service";
+import { UserContext } from "../../context/UserContext";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -11,6 +12,7 @@ const Login = () => {
   const [hide, setHide] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +21,7 @@ const Login = () => {
 
     try {
       const res = await AdminLoginService(formData);
+      console.log(res);
       const user = res.data.user;
       const token = res.data.token;
 
@@ -30,6 +33,7 @@ const Login = () => {
       }
 
       setToken(token);
+      login(user);
       navigate("/dashboard");
     } catch (err) {
       const errorMessage =
